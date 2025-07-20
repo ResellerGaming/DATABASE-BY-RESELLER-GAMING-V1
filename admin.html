@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DATA BASE BY RESELLER GAMING - Admin</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <script src="firebase.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Daftar Nomor WhatsApp</h2>
+    <ul id="list"></ul>
+  </div>
+  <script>
+    const db = firebase.firestore();
+    const list = document.getElementById('list');
+
+    db.collection("whatsappNumbers").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+      list.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const li = document.createElement("li");
+        li.innerHTML = `${data.number}
+          <button onclick="remove('${doc.id}')">Hapus</button>
+          <button onclick="blacklist('${data.number}')">Blacklist</button>`;
+        list.appendChild(li);
+      });
+    });
+
+    function remove(id) {
+      db.collection("whatsappNumbers").doc(id).delete();
+    }
+
+    function blacklist(number) {
+      db.collection("blacklist").add({
+        number,
+        timestamp: new Date()
+      });
+      alert("Nomor dimasukkan ke blacklist.");
+    }
+  </script>
+</body>
+</html>
