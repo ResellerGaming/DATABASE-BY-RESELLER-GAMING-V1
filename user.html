@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DATA BASE BY RESELLER GAMING - Buyer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <script src="firebase.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Tambah Nomor WhatsApp</h2>
+    <input type="text" id="number" placeholder="08xxxxxxxxxx" />
+    <button onclick="addNumber()">Tambah</button>
+    <p id="status"></p>
+  </div>
+  <script>
+    async function addNumber() {
+      const number = document.getElementById('number').value;
+      const status = document.getElementById('status');
+      if (!number) return status.innerText = "Isi nomor dulu!";
+
+      const db = firebase.firestore();
+      await db.collection("whatsappNumbers").add({
+        number,
+        timestamp: new Date()
+      });
+      status.innerText = "Berhasil ditambahkan!";
+      document.getElementById('number').value = "";
+    }
+  </script>
+</body>
+</html>
