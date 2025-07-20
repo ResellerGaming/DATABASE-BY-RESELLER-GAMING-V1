@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DATA BASE BY RESELLER GAMING - Buyer</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-  <script src="firebase.js"></script>
 </head>
 <body>
   <div class="container">
@@ -16,19 +13,48 @@
     <button onclick="addNumber()">Tambah</button>
     <p id="status"></p>
   </div>
-  <script>
-    async function addNumber() {
-      const number = document.getElementById('number').value;
-      const status = document.getElementById('status');
-      if (!number) return status.innerText = "Isi nomor dulu!";
 
-      const db = firebase.firestore();
-      await db.collection("whatsappNumbers").add({
-        number,
-        timestamp: new Date()
-      });
-      status.innerText = "Berhasil ditambahkan!";
-      document.getElementById('number').value = "";
+  <!-- Import Firebase V9 Modular -->
+  <script type="module">
+    // Import Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    // Konfigurasi Firebase kamu
+    const firebaseConfig = {
+      apiKey: "AIzaSyAhGpWcCsMQF7s9Iz6YiZCoRh1iUlcz-9g",
+      authDomain: "database-by-reseller-gaming.firebaseapp.com",
+      projectId: "database-by-reseller-gaming",
+      storageBucket: "database-by-reseller-gaming.appspot.com",
+      messagingSenderId: "846227590729",
+      appId: "1:846227590729:web:8874267516c7aca0813998"
+    };
+
+    // Inisialisasi Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Fungsi untuk tambah nomor
+    window.addNumber = async function () {
+      const number = document.getElementById("number").value;
+      const status = document.getElementById("status");
+
+      if (!number) {
+        status.innerText = "⚠️ Isi nomor dulu!";
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "whatsappNumbers"), {
+          number: number,
+          timestamp: serverTimestamp()
+        });
+        status.innerText = "✅ Nomor berhasil ditambahkan!";
+        document.getElementById("number").value = "";
+      } catch (e) {
+        status.innerText = "❌ Gagal menambahkan!";
+        console.error("Error adding document: ", e);
+      }
     }
   </script>
 </body>
