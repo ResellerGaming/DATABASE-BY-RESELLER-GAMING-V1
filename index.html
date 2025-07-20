@@ -1,150 +1,19 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Database Nomor WA</title>
-  <style>
-    body {
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: white;
-      font-family: sans-serif;
-      padding: 20px;
-      text-align: center;
-    }
-    input, button {
-      padding: 10px;
-      margin: 5px;
-      border-radius: 10px;
-      border: none;
-    }
-    #admin-section, #user-section {
-      margin-top: 20px;
-      display: none;
-    }
-    .number-box {
-      background: #111;
-      padding: 10px;
-      margin: 5px;
-      border-radius: 10px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DATA BASE BY RESELLER GAMING - Login</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>📱 Database Nomor WhatsApp</h1>
-
-  <div id="login-section">
-    <input type="email" id="email" placeholder="Email" />
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" />
     <input type="password" id="password" placeholder="Password" />
-    <br />
-    <button onclick="login()">Login</button>
-    <button onclick="register()">Register</button>
+    <button onclick="login()">Masuk</button>
+    <p id="error-msg"></p>
   </div>
-
-  <div id="admin-section">
-    <h2>Admin Panel</h2>
-    <input type="text" id="nomorInputAdmin" placeholder="Tambah Nomor WA" />
-    <button onclick="tambahNomor(true)">Tambah</button>
-    <div id="nomorListAdmin"></div>
-  </div>
-
-  <div id="user-section">
-    <h2>User Panel</h2>
-    <input type="text" id="nomorInputUser" placeholder="Tambah Nomor WA" />
-    <button onclick="tambahNomor(false)">Tambah</button>
-    <div id="nomorListUser"></div>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAhGpWcCsMQF7s9Iz6YiZCoRh1iUlcz-9g",
-      authDomain: "database-by-reseller-gaming.firebaseapp.com",
-      projectId: "database-by-reseller-gaming",
-      storageBucket: "database-by-reseller-gaming.appspot.com",
-      messagingSenderId: "846225798279",
-      appId: "1:846225798279:web:8874267516c7aca0813998",
-      measurementId: "G-MLHWRTD4BW"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-
-    async function login() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const admin = email.includes("admin");
-        document.getElementById('login-section').style.display = 'none';
-        document.getElementById(admin ? 'admin-section' : 'user-section').style.display = 'block';
-        listenData(admin);
-      } catch (e) {
-        alert("Login gagal: " + e.message);
-      }
-    }
-
-    async function register() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        alert("Registrasi berhasil. Silakan login.");
-      } catch (e) {
-        alert("Registrasi gagal: " + e.message);
-      }
-    }
-
-    async function tambahNomor(isAdmin) {
-      const input = document.getElementById(isAdmin ? "nomorInputAdmin" : "nomorInputUser");
-      if (input.value.trim() === "") return;
-      await addDoc(collection(db, "nomorWa"), {
-        nomor: input.value,
-        blacklist: false
-      });
-      input.value = "";
-    }
-
-    async function hapusNomor(id) {
-      await deleteDoc(doc(db, "nomorWa", id));
-    }
-
-    async function blacklistNomor(id) {
-      await updateDoc(doc(db, "nomorWa", id), { blacklist: true });
-    }
-
-    function listenData(isAdmin) {
-      const container = document.getElementById(isAdmin ? "nomorListAdmin" : "nomorListUser");
-      onSnapshot(collection(db, "nomorWa"), (snapshot) => {
-        container.innerHTML = "";
-        snapshot.forEach((docu) => {
-          const data = docu.data();
-          const div = document.createElement("div");
-          div.className = "number-box";
-          let html = `📞 ${data.nomor} ${data.blacklist ? "(Blacklisted)" : ""}`;
-          if (isAdmin) {
-            html += ` <button onclick="hapusNomor('${docu.id}')">Hapus</button>`;
-            if (!data.blacklist) {
-              html += ` <button onclick="blacklistNomor('${docu.id}')">Blacklist</button>`;
-            }
-          }
-          div.innerHTML = html;
-          container.appendChild(div);
-        });
-      });
-    }
-
-// Tambahkan ini:
-window.login = login;
-window.register = register;
-window.tambahNomor = tambahNomor;
-window.hapusNomor = hapusNomor;
-window.blacklistNomor = blacklistNomor;
-  </script>
+  <script src="script.js"></script>
 </body>
-  </html>
-    
+</html>
