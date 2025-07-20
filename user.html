@@ -14,13 +14,11 @@
     <p id="status"></p>
   </div>
 
-  <!-- Import Firebase V9 Modular -->
+  <!-- Import Firebase -->
   <script type="module">
-    // Import Firebase SDK
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-    // Konfigurasi Firebase kamu
     const firebaseConfig = {
       apiKey: "AIzaSyAhGpWcCsMQF7s9Iz6YiZCoRh1iUlcz-9g",
       authDomain: "database-by-reseller-gaming.firebaseapp.com",
@@ -30,17 +28,15 @@
       appId: "1:846227590729:web:8874267516c7aca0813998"
     };
 
-    // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Fungsi untuk tambah nomor
     window.addNumber = async function () {
       const number = document.getElementById("number").value;
       const status = document.getElementById("status");
 
       if (!number) {
-        status.innerText = "⚠️ Isi nomor dulu!";
+        status.innerText = "⚠️ Nomor tidak boleh kosong!";
         return;
       }
 
@@ -52,8 +48,8 @@
         status.innerText = "✅ Nomor berhasil ditambahkan!";
         document.getElementById("number").value = "";
       } catch (e) {
-        status.innerText = "❌ Gagal menambahkan!";
-        console.error("Error adding document: ", e);
+        console.error("Error:", e);
+        status.innerText = "❌ Gagal menambahkan nomor.";
       }
     }
   </script>
