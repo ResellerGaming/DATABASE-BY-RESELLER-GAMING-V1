@@ -1,19 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DATA BASE BY RESELLER GAMING - Login</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Programmer Gaming</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="login-box">
-    <h2>Login</h2>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="login()">Masuk</button>
-    <p id="error-msg"></p>
-  </div>
-  <script src="script.js"></script>
+    <header>
+        <h1>Nama Anda</h1>
+        <p>Programmer Profesional | Game Developer</p>
+        <button id="play-music">Play Music</button>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#about">Tentang Saya</a></li>
+            <li><a href="#skills">Keahlian</a></li>
+            <li><a href="#projects">Proyek</a></li>
+            <li><a href="#contact">Kontak</a></li>
+        </ul>
+    </nav>
+
+    <section id="about">
+        <h2>Tentang Saya</h2>
+        <img src="profile.jpg" alt="Foto Profil" class="profile-pic">
+        <p>Saya adalah seorang programmer dan pengembang game dengan pengalaman lebih dari 5 tahun. Saya mencintai teknologi dan seni dalam pengembangan game.</p>
+    </section>
+
+    <section id="skills">
+        <h2>Keahlian</h2>
+        <ul>
+            <li>Unity</li>
+            <li>C#</li>
+            <li>JavaScript</li>
+            <li>HTML & CSS</li>
+            <li>Game Design</li>
+        </ul>
+    </section>
+
+    <section id="projects">
+        <h2>Proyek</h2>
+        <ul>
+            <li><strong>Proyek 1:</strong> Deskripsi proyek 1.</li>
+            <li><strong>Proyek 2:</strong> Deskripsi proyek 2.</li>
+            <li><strong>Proyek 3:</strong> Deskripsi proyek 3.</li>
+        </ul>
+    </section>
+
+    <section id="contact">
+        <h2>Kontak</h2>
+        <p>Email: <a href="mailto:email@anda.com">email@anda.com</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/username">linkedin.com/in/username</a></p>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Nama Anda. Semua hak dilindungi.</p>
+    </footer>
+
+    <audio id="background-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const playButton = document.getElementById('play-music');
+        const music = document.getElementById('background-music');
+
+        playButton.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                playButton.textContent = 'Pause Music';
+            } else {
+                music.pause();
+                playButton.textContent = 'Play Music';
+            }
+        });
+    </script>
 </body>
-</html>
+          </html>
+  
